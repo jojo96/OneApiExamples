@@ -1,0 +1,48 @@
+Pseudocode for a sample DPC++ Program:
+
+selector = default_selector()
+q = queue(selector)//select device
+b = buffer (double, 1000)//allocate buffer space for storing array
+q.submit (
+F ( ) {
+a = accessor(b, READ_AND_WRITE)
+K (i) {
+a[i] = a[i] * 2//processing
+}
+}
+)
+q.wait_and_throw()
+a2 = accessor(b, READ_ONLY)
+printf(“%f”, a2[0])
+
+
+
+Device Selection
+• SYCL provides the concept of a device selector which is a function that will choose which
+device to run on
+• device selectors select that type of device
+
+• sycl::default_selector
+  • implementation specific method to select a default device
+    • sycl::cpu_selector
+  • selects the host device
+    • The host processor runs the OpenCL implementations and is a single or multi-core CPU.
+  • sycl::gpu_selector
+    • selects a GPU device
+    • can be used to accelerate a 3D API such as OpenGL or DirectX.
+  • sycl::accelerator_selector
+    • selects an accelerator device
+    • communicate with the host processor using a peripheral interconnect such as PCIe
+
+
+Device Selection Example
+using namespace cl;
+sycl::device_selector selector = sycl::gpu_selector();
+sycl::queue queue(selector);
+  • This will select a GPU device
+  • If a GPU device doesn’t exist, queue creation will fail.
+
+
+
+
+
